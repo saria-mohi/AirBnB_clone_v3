@@ -44,7 +44,7 @@ class FileStorage:
         """serializes __objects to the JSON file (path: __file_path)"""
         json_objects = {}
         for key in self.__objects:
-            json_objects[key] = self.__objects[key].to_dict(True)
+            json_objects[key] = self.__objects[key].to_dict()
         with open(self.__file_path, 'w') as f:
             json.dump(json_objects, f)
 
@@ -68,18 +68,3 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
-
-    def get(self, cls, id):
-        """Get is a method to retrieve one object"""
-        if cls and id:
-            key_name = "{}.{}".format(cls.__name__, id)
-            return self.__objects.get(key_name)
-        else:
-            return None
-
-    def count(self, cls=None):
-        """Get is a method to count the number of objects"""
-        if cls is None:
-            return len(self.all())
-        else:
-            return len(self.all(cls))
